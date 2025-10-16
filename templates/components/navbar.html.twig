@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-lg" style="background-color: rgba(8, 13, 42)">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{{path('app_static')}}" style="font-size: 1.8rem; color: rgb(250, 249, 249); text-shadow: 1px 1px 1px rgb(238, 174, 110); letter-spacing: 0.1rem; font-family:cursive">CoreStore.com</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				{% if is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN') %}
+				{% if app.user %}
+					<li class="nav-item pt-1">
+						<a class="nav-link" href="{{ path('app_user_profile') }}" style="font-size: 1.25rem">
+							Welcome back
+							{{ app.user.fname }}!
+						</a>
+					</li>
+				{% endif %}
+				{% endif %}
+				{# only admins ('ROLE_ADMIN') can edit(add, delete)/see "PRODUCTS" #}
+				{% if is_granted('ROLE_ADMIN') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('app_products_index')}}" style="font-size: 1.25rem">AdminPanel</a>
+					</li>
+					{% if is_granted('ROLE_ADMIN') %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('admin_statistics') }}" style="font-size: 1.25rem">Statistics</a>
+						</li>
+					{% endif %}
+					{% if is_granted('ROLE_ADMIN') %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_q_a_page') }}" style="font-size: 1.25rem">Questions</a>
+						</li>
+					{% endif %}
+					
+				{% endif %}
+			</ul>
+		</li>
+	</ul>
+	<div class="d-flex align-items-center" role="search">
+		<ul class="navbar-nav">
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_user_profile') }}" style="font-size: 1.9rem; color:transparent; -webkit-text-stroke: 1px rgb(232, 226, 219); line-height:1;">
+						<i class="fa-solid fa-user"></i>
+					</a>
+				</li>
+				{# cart with cart icon #}
+				<li class="nav-item">
+					<a class="nav-link position-relative" href="{{path('cart_index')}}">
+						<i class="fa-solid fa-cart-shopping " style="font-size: 1.9rem; color:transparent; -webkit-text-stroke: 1px rgb(232, 226, 219); line-height:1;"></i>
+						{% if cart is not empty and cart.items|length > 0 %}
+							{% set totalQty = 0 %}
+							{% for it in cart.items %}
+								{% set totalQty = totalQty + it.quantity %}
+							{% endfor %}
+							<span class="cart-count">
+								{{ totalQty }}
+								<span class="visually-hidden">items in cart</span>
+							</span>
+						{% endif %}
+					</a>
+				</li>
+				{# Logout, login and register link #}
+				<li class="nav-item">
+					<a class="nav-link" href="{{path('app_logout')}}" style="font-size: 1.25rem">Logout</a>
+				</li>
+			{% else %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{path('app_register')}}" style="font-size: 1.25rem">Register</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{path('app_login')}}" style="font-size: 1.25rem">Login</a>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
+</div></div></nav>

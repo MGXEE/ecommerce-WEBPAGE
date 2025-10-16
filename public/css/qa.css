@@ -1,0 +1,17 @@
+.accordion-button {
+    background-color: rgba(48, 36, 20, 0.302);
+    color: rgb(37, 19, 3);
+}
+
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(48, 36, 20, 0.302);
+    color: rgb(37, 19, 3);
+    box-shadow: none;
+}
+
+
+.accordion-body {
+    background-color: rgba(236, 198, 164, 0.407);
+    color: rgb(37, 19, 3);
+}

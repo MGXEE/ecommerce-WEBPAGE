@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %} {% block title %} Order Successful {% endblock %}
+{% block body %}
+
+<div class="container mt-5">
+    <div class="alert alert-success">
+        <h4 class="mb-0">
+            Thank you! for Order #{{ order.id }} was paid successfully.
+        </h4>
+    </div>
+
+    <p>
+        Status: <b>{{ order.status }}</b>
+    </p>
+    <p>
+        Payment method: <b>{{ order.paymentMethod ?? "-" }}</b>
+    </p>
+    <p>
+        Total: <b>{{ order.total }}</b>
+    </p>
+
+    <p class="mb-1">
+        Created:
+        <b>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i') : '-' }}</b>
+    </p>
+    <p class="mb-1">
+        Paid at: <b>{{ order.paidAt? order.paidAt|date('Y-m-d H:i') : '-' }}</b>
+    </p>
+
+    <h5>Shipping Address</h5>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <div>{{ order.fullName }}</div>
+            <div>{{ order.street }}</div>
+            <div>{{ order.zip }}</div>
+            <div>{{ order.city }}</div>
+            <div>{{ order.country }}</div>
+            {% if order.phone %}
+            <div>Phone: {{ order.phone }}</div>
+            {% endif %}
+        </div>
+
+        {#
+        <h5>Items</h5>
+        <ul>
+            {% for item in order.items %}
+            <li>
+                {{ item.product }} - {{ item.quantity }} *
+                {{ item.price|number_format(2, ',' '.') }} € (=
+                {{ item.line_total|number_format(2, ',' '.') }}) €
+            </li>
+            {% endfor %}
+        </ul>
+        #}
+    </div>
+
+    <h5>Items</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Line_Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items %}
+            <tr>
+                <td>{{ item.product }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price|number_format(2, ',', '.') }} €</td>
+                <td>{{ item.line_total|number_format(2, ',' ,'.') }} €</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No Items in Cart</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><b>Total</b></td>
+                <td>
+                    <b>{{ order.total|number_format(2, ',' ,'.') }} € </b>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="d-flex gap-2 mt-3">
+        <a class="btn btn-primary" href="{{ path('cart_index') }}"
+            >Back to cart</a
+        >
+        <a class="btn btn-secondary" href="{{ path('app_static') }}"
+            >Countinue shopping</a
+        >
+        <a
+            href="{{ path('app_order_download', { id: order.id }) }}"
+            class="btn btn-info"
+        >
+            Download Invoice (PDF)
+        </a>
+    </div>
+</div>
+
+{% endblock %}

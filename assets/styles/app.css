@@ -1,0 +1,95 @@
+body {
+    background-color: rgba(166, 140, 102, 0.515);
+    font-family: 'Courier New', Courier, monospace;
+    color: rgba(40, 53, 137, 0.52);
+    min-height: 3000px;
+    padding-bottom: 300px; 
+}
+
+
+h1 {
+    font-size: 4rem;
+    text-align: center;
+    text-shadow: 1px 1px 1px black;
+    color: rgb(54, 40, 26);
+    margin-bottom: 2rem;
+}
+
+
+footer {
+    background-color: rgba(8, 13, 42);
+    color: rgb(245, 233, 217);
+    min-height: 140px;
+}
+
+
+#productCarousel .carousel-caption {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 3rem;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+    font-family: cursive;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 1rem 2rem;
+    border-radius: 0;
+    pointer-events: none;
+    text-align: center;
+    width: 100%; 
+    letter-spacing: 0.2rem;
+}
+
+
+
+#productCarousel .carousel-item img {
+    opacity: 0.7;
+    object-fit: cover;
+    height: 300px;
+    width: 100%;
+}
+
+
+.scroll-row {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    align-items: stretch;
+}
+
+.scroll-row::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-row::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+.product-card {
+    min-width: 26.25rem;
+    max-width: 26.25rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: rgba(48, 36, 20, 0.302);
+    color: rgb(37, 19, 3);
+    text-align: center;
+}
+
+.product-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 315px; 
+    font-family: Courier, monospace;
+}
+
+.product-card .description {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+{% block title %}My Cart
+{% endblock %}
+{% block
+body %}
+	<div class="container mt-4">
+		<h1>My Shopping Cart</h1>
+
+		{% if cartItems|length > 0 %}
+			<div class="row">
+				{% for item in cartItems %}
+					<div class="col-md-4">
+						<div class="card mb-4 shadow-sm">
+							<img src="{{ item.product.image }}" alt="{{ item.product.product }}" style="height: 250px"/>
+							<div class="card-body">
+								<h5 class="card-title">{{ item.product.product }}</h5>
+								<p class="card-text">Price:
+									{# {{ item.product.price }} #}
+									{% if item.product.discount %}
+										<del>{{ item.product.price }}
+											€</del>
+										<span class="text-danger">{{ item.product.getPriceWithDiscount() }}
+											€</span>
+									{% else %}
+										{{ item.product.price }}
+										€
+									{% endif %}
+									€</p>
+								<p class="card-text">Quantity:
+									{{ item.quantity }}</p>
+								<hr/>
+								<p class="card-text">
+									<strong>
+										Total:
+										{# {{ (item.quantity * item.product.price)|number_format(2, '.', ',') }} #}
+										Total:
+										{% if item.product.discount %}
+											{{ (item.quantity * item.product.getPriceWithDiscount())|number_format(2, '.', ',') }}
+											€
+										{% else %}
+											{{ (item.quantity * item.product.price)|number_format(2, '.', ',') }}
+											€
+										{% endif %}
+									</strong>
+								</p>
+
+								<a href="{{ path('cart_remove', { id: item.id }) }}" class="btn btn-danger btn-sm" title="Remove item">
+									<i class="fa-solid fa-trash"></i>
+								</a>
+
+								<div class="btn-group mt-2" role="group">
+									<a href="{{ path('cart_decrease', { id: item.id }) }}" class="btn btn-outline-secondary btn-sm">-</a>
+									<span class="btn btn-light btn-sm">{{
+                            item.quantity
+                        }}</span>
+									<a href="{{ path('cart_increase', { id: item.id }) }}" class="btn btn-outline-secondary btn-sm">+</a>
+								</div>
+							</p>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		<div class="d-flex justify-content-center mt-4">
+			<div class="card shadow-sm" style="max-width: 400px">
+				<div class="card-body text-center">
+					<h5 class="fw-bold text-success">
+						Cart Total:
+						{{
+                            cartItems
+								| map(i => i.quantity * i.product.getPriceWithDiscount())
+                                | reduce((c, v) => c + v)
+                                | number_format(2, '.', ',')
+                    }}
+						€
+					</h5>
+					<a href="{{ path('app_checkout') }}" class="btn btn-success"> Go to checkout</a>
+                    <a  href="{{ path('app_static') }}" class="btn btn-success">Continue Shopping</a>
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div class="alert alert-warning">Your Cart is empty.</div>
+	{% endif %}
+</div>{% endblock %}

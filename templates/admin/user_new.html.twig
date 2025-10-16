@@ -1,0 +1,14 @@
+{# templates/admin/user_new.html.twig #} {% extends 'base.html.twig' %} {% block
+title %}Neuen Benutzer anlegen{% endblock %} {% block body %}
+<div class="container mt-5">
+    <h1>Create New User-Profile</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary mt-3">Create User</button>
+    <a href="{{ path('app_user_profile') }}" class="btn btn-secondary mt-3"
+        >Back To User List</a
+    >
+    {{ form_end(form) }}
+</div>
+{% endblock %}

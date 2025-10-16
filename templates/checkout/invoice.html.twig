@@ -1,0 +1,49 @@
+<h1>Invoice #{{ order.id }}</h1>
+
+<p>
+    <strong>Date:</strong>
+    {{ order.paidAt ? order.paidAt|date('Y-m-d H:i') : '-' }}
+</p>
+<p><strong>Customer:</strong> {{ order.fullName }}</p>
+<p>
+    <strong>Address:</strong> {{ order.street }}, {{ order.zip }}
+    {{ order.city }}, {{ order.country }}
+</p>
+{% if order.phone %}
+<p><strong>Phone:</strong> {{ order.phone }}</p>
+{% endif %}
+<p><strong>Email:</strong> {{ order.email }}</p>
+
+<hr />
+
+<h3>Items</h3>
+<table border="1" cellspacing="0" cellpadding="6" width="100%">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Line Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in order.items %}
+        <tr>
+            <td>{{ item.product }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price|number_format(2, ',', '.') }} €</td>
+            <td>{{ item.line_total|number_format(2, ',', '.') }} €</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3"><b>Total</b></td>
+            <td>
+                <b>{{ order.total|number_format(2, ',', '.') }} €</b>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<p style="margin-top: 20px">Thank you for your order!</p>

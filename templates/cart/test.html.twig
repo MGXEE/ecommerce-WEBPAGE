@@ -1,0 +1,42 @@
+{# test for admin statistic page #}
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Test Cart
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h1>Test Cart</h1>
+
+		{% if cartItems|length > 0 %}
+			<ul>
+				{% for item in cartItems %}
+					<li>
+						{{ item.product.product }}
+						-
+						{{ item.quantity }}
+						x
+						{{ item.product.price }}
+						€ =
+						{{ (item.quantity * item.product.price)|number_format(2, '.', ',') }}
+						€
+					</li>
+				{% endfor %}
+			</ul>
+
+			<p>
+				<strong>Total:
+					{{ total|number_format(2, '.', ',') }}
+					€</strong>
+			</p>
+
+			<form method="POST" action="{{ path('cart_checkout') }}">
+				<button type="submit" class="btn btn-success">Checkout</button>
+			</form>
+		{% else %}
+			<p>Cart is empty</p>
+		{% endif %}
+	</div>
+{% endblock %}

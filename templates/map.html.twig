@@ -1,0 +1,63 @@
+<div class="container my-4">
+	<h3 class="text-center mb-3">Our Store Locations</h3>
+
+	<div class="d-flex justify-content-center">
+		<div class="card shadow rounded" style="width: 100%; max-width: 700px;">
+			<div id="map" style="height:400px;"></div>
+			<div class="card-body text-center">
+				<a href="https://www.google.com/maps/dir/?api=1&destination=48.210033,16.373449" target="_blank" id="directions-btn" class="btn btn-primary">Routes</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEjPjep9oqHeuUeTrDo9H31Ws4ykxQfk&callback=initMap" async defer></script>
+<script>
+	function initMap() {
+const stores = [
+{
+name: "Main Store",
+lat: 48.210033,
+lng: 16.373449,
+info: "Vienna, Austria"
+}, {
+name: "Outlet Shop",
+lat: 48.216033,
+lng: 16.380449,
+info: "Outlet Shop, Vienna, Austria"
+}
+];
+
+const map = new google.maps.Map(document.getElementById("map"), {
+zoom: 14,
+center: stores[0]
+});
+
+const infoWindow = new google.maps.InfoWindow();
+
+stores.forEach(store => {
+const marker = new google.maps.Marker({
+position: {
+lat: store.lat,
+lng: store.lng
+},
+map: map,
+title: store.name
+});
+
+marker.addListener("click", () => {
+infoWindow.setContent(`<strong>${
+store.name
+}</strong><br>${
+store.info
+}`);
+infoWindow.open(map, marker);
+document.getElementById("directions-btn").href = `https://www.google.com/maps/dir/?api=1&destination=${
+store.lat
+},${
+store.lng
+}`;
+});
+});
+}
+</script>

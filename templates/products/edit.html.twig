@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %} {% block title %}Edit Products{% endblock %} {%
+block body %}
+<div class="container">
+    <h1>Edit Products</h1>
+
+    {# Update-Formular starten #}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <div class="d-flex justify-content-start gap-2 mt-3">
+        <a href="{{ path('app_products_index') }}" class="btn btn-primary"
+            >Back To List</a
+        >
+
+        <button class="btn btn-secondary" type="submit">
+            {{ button_label|default('Update') }}
+        </button>
+        <button class="btn btn-danger">Delete</button>
+    </div>
+    {{ form_end(form) }}
+
+    {# Delete-Formular separat, außerhalb vom Update-Formular #}
+    <form
+        method="post"
+        action="{{ path('app_products_delete', { id: product.id }) }}"
+        onsubmit="return confirm('Are you sure you want to delete this item?');"
+        style="display: inline-block; margin-top: 1rem"
+    >
+        <input
+            type="hidden"
+            name="_token"
+            value="{{ csrf_token('delete' ~ product.id) }}"
+        />
+    </form>
+</div>
+{% endblock %}

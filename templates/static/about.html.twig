@@ -1,0 +1,83 @@
+{% extends "base.html.twig" %}
+{% block title %}
+	{{ page_title }}
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/about.css') }}"/>
+{% endblock %}
+{% block body %}
+	<div class="container mt-5">
+		<h1 class="text-center mb-5">{{ page_title }}</h1>
+
+		<div class="row g-4">
+			<div class="col-md-6">
+				<div class="card shadow-sm h-100 p-4">
+					<h2 class="h4 mb-3 headline">Our Mission</h2>
+					<p>
+						We aim to build a seamless, secure, and enjoyable e-commerce
+																																																																																																																																										                    platform while learning and applying full-stack development
+																																																																																																																																										                    principles with Symfony.
+					</p>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="card shadow-sm h-100 p-4">
+					<h2 class="h4 mb-3 headline">Our Story</h2>
+					<p>
+						This platform is the result of teamwork, dedication, and
+																																																																																																																																										                    creativity. Each team member contributed their unique skills
+																																																																																																																																										                    to bring this project to life.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="card shadow-sm mt-5 p-4">
+			<h2 class="h4 mb-4 headline">Meet the Team</h2>
+			<div class="row row-cols-1 row-cols-md-3 g-4">
+				<div class="col">
+					<div class="card h-100 text-center p-3 user">
+						<h5 class="card-title">Melanie Weidinger</h5>
+						<p class="card-text">💡 Ideas & Design & Products</p>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card h-100 text-center p-3 user">
+						<h5 class="card-title">Devin Lasnig</h5>
+						<p class="card-text">💡 Ideas</p>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card h-100 text-center p-3 user">
+						<h5 class="card-title">Mohd AlhajKhalil</h5>
+						<p class="card-text">📝 Q&A</p>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card h-100 text-center p-3 user">
+						<h5 class="card-title">Alex Grytsiv</h5>
+						<p class="card-text">📊 View Statistics & Discounts</p>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card h-100 text-center p-3 user">
+						<h5 class="card-title">Nimco Daud Farah</h5>
+						<p class="card-text">🛒 Cart & Products & Order</p>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card h-100 text-center p-3 user">
+						<h5 class="card-title">Gabriel Horn</h5>
+						<p class="card-text">📖 About Us</p>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="map-container mt-4 mb-4">
+				{% include 'map.html.twig' %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

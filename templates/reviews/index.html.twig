@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %} {% block title %}Reviews for
+{{ product.product }}{% endblock %} {% block body %}
+<div class="container mt-4">
+    <h2>Reviews for "{{ product.product }}"</h2>
+
+    {{ form_start(form) }}
+    {{ form_row(form.author) }} {# Autor ganz oben #}
+    {{ form_row(form.rating) }}
+    {{ form_row(form.content) }}
+    <button class="btn btn-primary" type="submit">Submit Review</button>
+    {{ form_end(form) }}
+
+    <hr />
+
+    <h3>Existing Reviews</h3>
+    {% if reviews|length > 0 %}
+    <ul class="list-group">
+        {% for review in reviews %}
+        <li class="list-group-item mt-3">
+            <strong>Rating:</strong> {{ review.rating }} / 5<br />
+            <strong>Comment:</strong> {{ review.content }}<br />
+            <small
+                ><em
+                    >Submitted on {{ review.createdAt|date('Y-m-d H:i') }}</em
+                ></small
+            >
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+        <form
+            action="{{ path('review_delete', { id: review.id }) }}"
+            method="post"
+            onsubmit="return confirm('Willst du diesen Review wirklich löschen?');"
+        >
+            <button type="submit" class="btn btn-danger btn-sm mt-1">
+                Löschen
+            </button>
+        </form>
+        {% endif %} {% endfor %}
+    </ul>
+    {% else %}
+    <p>No reviews yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

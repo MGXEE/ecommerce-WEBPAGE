@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %} {% block title %}Q&A form{% endblock %} {% block
+body %}
+
+<div class="container">
+    <form action="{{ path('app_q_a_form') }}" method="post">
+        <div class="my-3">
+            <label for="question" class="form-label">Your Question:</label>
+            <input
+                type="text"
+                class="form-control"
+                id="question"
+                name="question"
+                required
+            />
+        </div>
+        <div class="my-3">
+            <label for="email" class="form-label"
+                >Your Email so we can contact you:</label
+            >
+            <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                required
+            />
+        </div>
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-outline-secondary">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

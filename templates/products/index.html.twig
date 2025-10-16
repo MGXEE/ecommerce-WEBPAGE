@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %} {% block title %}Products index{% endblock %} {%
+block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/products.css') }}" />
+{% endblock %} {% block body %}
+<div class="container">
+    
+    <div class="buttons mt-3 d-flex justify-content-start">
+
+    {# filter - dropdown #}
+     <form method="get" class="mb-4 d-flex align-items-center">
+        <select name="category" id="category" class="form-select me-2" style="width: 200px; background-color: rgb(108, 108, 108); color: white; border: 1px solid rgb(108, 108, 108);" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+
+    {# create categorylist #}
+            {% set categories = [] %}
+            {% for product in products %}
+                {% if product.category not in categories %}
+                    {% set categories = categories|merge([product.category]) %}
+                {% endif %}
+            {% endfor %}
+
+            {% for category in categories %}
+                <option value="{{ category }}" {% if app.request.get('category') == category %}selected{% endif %}>
+                    {{ category }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <noscript><button type="submit" class="btn btn-primary">Filter</button></noscript>
+    </form>
+
+    <a
+            class="btn mb-4"
+            href="{{ path('app_products_new') }}"
+            style="background-color: rgb(108, 108, 108); color: white; width: 200px;"
+        >Create New Product</a>
+
+    </div>
+
+
+
+    {# --- cards/grid --- #}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% set selectedCategory = app.request.get('category') %}
+        {% set hasResults = false %}
+
+        {% for product in products %}
+            {% if selectedCategory is empty or product.category == selectedCategory %}
+                {% set hasResults = true %}
+                <div class="col">
+                    <div class="card h-100">
+                        <img
+                            src="{{ product.image }}"
+                            class="card-img-top"
+                            alt="{{ product.product }}"
+                            style="height: 200px; object-fit: cover"
+                        />
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ product.product }}</h5>
+                            <hr />
+                            <p class="card-text">{{ product.price }}</p>
+                            <p class="card-text">{{ product.description }}</p>
+                            <hr />
+                            <p class="card-text text-center">{{ product.category }}</p>
+                            <hr />
+                            <div class="d-flex align-items-center justify-content-evenly gap-2">
+                                <a href="{{ path('app_products_show', { id: product.id }) }}" class="btn btn-success">
+                                    Show details
+                                </a>
+                                <a href="{{ path('app_products_edit', { id: product.id }) }}" class="btn btn-secondary">
+                                    Edit product
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {% if not hasResults %}
+            <p>No products found for the selected category.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

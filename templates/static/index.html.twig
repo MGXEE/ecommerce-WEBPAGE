@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('') }}"/>
+{% endblock %}
+
+{% block body %}
+	<div class="container pt-3">
+
+		<form action="{{ path('app_static') }}" method="get" class="d-flex mb-4">
+			<select name="filter" class="form-select me-2" style="width: 130px;">
+				<option value="all" {{ filter == 'all' ? 'selected' : '' }}>All Products</option>
+				<option value="product" {{ filter == 'product' ? 'selected' : '' }}>Search by Product</option>
+			</select>
+
+			<input class="form-control me-2" type="search" name="q" placeholder="Search products" aria-label="Search" value="{{ searchTerm|default('') }}" {% if filter != 'product' %} disabled {% endif %}/>
+
+			<button class="btn btn-light" type="submit">Search</button>
+		</form>
+
+		{% if products|length > 0 %}
+			<div id="productCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+				<div class="carousel-inner">
+					{% for product in products %}
+						<div class="carousel-item {{ loop.first ? 'active' }}">
+							<img src="{{ product.image }}" alt="{{ product.product }}">
+							<div class="carousel-caption">Our Products</div>
+						</div>
+					{% endfor %}
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+		{% endif %}
+
+		{# categorized #}
+		{% set groupedProducts = {} %}
+		{% for product in products %}
+			{% set groupedProducts = groupedProducts|merge({ (product.category): (groupedProducts[product.category]|default([]))|merge([product]) }) %}
+		{% endfor %}
+
+		{% for category, categoryProducts in groupedProducts %}
+			<h2 class="mt-5 text-center mb-3" style="background-color: rgba(96, 66, 32, 0.235); color:rgb(228, 217, 207); text-shadow: 1px 1px 1px black; letter-spacing: 0.1rem; font-size: 2.5rem;">{{ category }}</h2>
+			<div class="scroll-row">
+				{% for product in categoryProducts %}
+					<div class="card product-card h-100">
+						<img src="{{ product.image }}" class="card-img-top" alt="{{ product.product }}" style="height: 180px; object-fit: cover;"/>
+						<div class="card-body">
+							<h5 class="card-title text-center" style="color: rgb(247, 238, 230); text-shadow: 1px 1px 1px black;">{{ product.product }}</h5>
+							<hr>
+							{# <p class="card-text">Price: {{ product.price }}€</p> #}
+
+							{# discount and special offer #}
+								{% if product.discount %}
+									<p class="card-text"> <span class="original-price" style="text-decoration: line-through;">{{ product.price }}€</span>
+									<span class="discounted-price">{{ product.getPriceWithDiscount() }}€</span>
+								</p>
+								{% if product.isSpecialOffer() %}
+									<span class="badge bg-warning mb-3" style="font-weight: normal;">Special Offer</span>
+								{% endif %}
+							{% else %}
+								<p class="card-text">Price:
+									{{ product.price }}€</p>
+							{% endif %}
+
+							<p class="card-text description">{{ product.description }}</p>
+
+							<hr>
+							<div class="d-flex justify-content-end">
+								<a href="{{ path('cart_add', { id: product.id }) }}" class="btn btn-success me-2">Add to Cart</a>
+								<a href="{{ path('product_reviews', { id: product.id }) }}" class="btn btn-secondary">Reviews</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<p>No products found.</p>
+		{% endfor %}
+	</div>
+
+
+{% endblock %}

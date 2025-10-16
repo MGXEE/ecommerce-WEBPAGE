@@ -1,0 +1,17 @@
+.card {
+    background-color: rgba(48, 36, 20, 0.302);
+    color: rgb(37, 19, 3);
+}
+
+.card .user {
+    background-color: rgba(236, 198, 164, 0.407);
+    color: rgb(37, 19, 3);
+    border-radius: 6px;
+    box-shadow: 1px 1px 1px black;
+}
+
+
+.card .headline {
+    text-shadow: 1px 1px 1px black;
+    color: white;
+}
